@@ -2,20 +2,24 @@ import express from 'express';
 import {MongoClient} from 'mongodb';
 
 let app = express();
-const URL = 'mongodb://pdoreau:dadfba16@ds247171.mlab.com:47171/rgrjs';
-
-
-//app.get('/', (req, res) => res.send('hello express!'));
+const URL = 'mongodb://127.0.0.1:27017/';
 
 app.use(express.static('public'));
-app.listen(3000);
-console.log('listening on port 3000...')
-MongoClient.connect(URL, (err, database) => {
+
+let db;
+MongoClient.connect(URL, { useNewUrlParser: true },  (err, client)=>{
     if(err) throw err;
 
-    database.collection("links").find({}).toArray((err, links) => {
+    db = client.db('rgrjs');
+    app.listen(3000, () => console.log('Listening on port 3000'));
+});
+
+app.get("/data/links", (req, res) => {
+    db.collection("links").find({}).toArray(function(err, links){
         if(err) throw err;
 
-        console.log(links);
+        res.json(links);
     });
 });
+
+

@@ -1,10 +1,23 @@
-
 import React  from 'react';
+import API from "../API";
 
-class Hello extends React.Component {
+class Main extends React.Component {
+
+    componentDidMount(){
+        API.fetchLinks();
+    }
+
     render (){
-        return <h3>This is cool</h3>
+        return(
+            <div>
+                <h3>Links</h3>
+                <ul>
+                    <li>Links...</li>
+                    <li>Links...</li>
+                </ul>
+            </div>
+        )
     }
 }
 
-export default Hello;
+export default Main;
